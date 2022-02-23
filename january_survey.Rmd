@@ -204,3 +204,36 @@ ggplot(aes(x = Q28)) +
     subtitle = "by Language; 1 = None, 2 = A Little, 3 = Some, 4 = Most, 5 = All"
   )
 ```
+
+```{r plots-7, message = F, warning = FALSE, echo = FALSE}
+
+fppjan22$Q48 = factor(fppjan22$Q48, levels = c("Not Vaccinated", "Partially Vaccinated", "Fully Vaccinated", "Fully Vaccinated w/ Booster"), ordered = TRUE)
+
+fppjan22 %>%
+  filter(!is.na(Q48)) %>%
+ggplot(aes(x = Q48)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Vaccination Status of Respondent")
+
+fppjan22_7 <- fppjan22
+
+fppjan22_7$Q48 <- recode(fppjan22_7$Q48, "Not Vaccinated" = "1", "Partially Vaccinated" = "2", "Fully Vaccinated" = "3", "Fully Vaccinated w/ Booster" = "4")
+
+fppjan22_7 %>%
+  filter(!is.na(Q48)) %>%
+ggplot(aes(x = Q48)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+  facet_grid(.~UserLanguage) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Vaccination Status of Respondent",
+    subtitle = "by Language; 1 = Not Vaccinated, 2 = Partially Vaccinated, 
+3 = Fully Vaccinated, 4 = Fully Vaccinated w/ Booster"
+  )
+```
