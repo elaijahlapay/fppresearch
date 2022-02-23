@@ -23,10 +23,55 @@ library(haven)
 library(yardstick)
 library(broom)
 library(knitr)
+library(ggplot2)
 ```
 ```{r load-data-and-mutate, message = F, warning = FALSE, echo = FALSE}
 library(readxl)
 fppjan22 <- read_excel("fppjan22.xlsx", sheet = "Both")
 ```
 
-# Exploratory Data Analysis and Investigation Methodology
+# Exploratory Data Analysis
+
+```{r plots-1, message = F, warning = FALSE, echo = FALSE}
+ggplot(fppjan22, aes(x = UserLanguage)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+   labs(
+    x = "Language of Survey",
+    y = "Number of Respondents of Survey", 
+    title = "FPP Research January 2022 Survey by Language of Survey",
+  )
+```
+
+```{r plots-2, message = F, warning = FALSE, echo = FALSE}
+
+fppjan22$QID1 = factor(fppjan22$QID1, levels = c("Extremely dissatisfied", "Somewhat dissatisfied", "Somewhat satisfied", "Extremely satisfied"), ordered = TRUE)
+
+fppjan22 %>%
+  filter(!is.na(QID1)) %>%
+ggplot(aes(x = QID1)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+   labs(
+    x = "Satisfaction with Fresh Produce Program",
+    y = "Number of Survey Respondents", 
+    title = "Responses to: How satisfied are you with the food you received overall?",
+  )
+
+fppjan22_1 <- fppjan22
+
+fppjan22_1$QID1 <- recode(fppjan22_1$QID1, "Extremely dissatisfied" = "1", "Somewhat dissatisfied" = "2", "Somewhat satisfied" = "3", "Extremely satisfied" = "4")
+
+fppjan22_1 %>%
+  filter(!is.na(QID1)) %>%
+ggplot(aes(x = QID1)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+  facet_grid(.~UserLanguage) +
+   labs(
+    x = "Satisfaction with Fresh Produce Program",
+    y = "Number of Survey Respondents", 
+    title = "Responses to: How satisfied are you with the food you received overall?",
+    subtitle = "by Language; 1 = Extremely Dissatisfied, 4 = Extremely Satisfied"
+  )
+```
