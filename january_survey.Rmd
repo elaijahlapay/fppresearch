@@ -1,0 +1,32 @@
+---
+title: "Root Causes' Fresh Produce Program January 2022 Survey EDA"
+author: "Elaijah Lapay"
+date: "2/23/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load-packages, message = FALSE, warning = FALSE, echo = FALSE}
+library(tidyverse) 
+library(readxl)
+library(tinytex)
+library(tidymodels)
+library(infer)
+library(spdep)
+library(lme4)
+library(readr)
+library(ggfortify)
+library(haven)
+library(yardstick)
+library(broom)
+library(knitr)
+```
+```{r load-data-and-mutate, message = F, warning = FALSE, echo = FALSE}
+library(readxl)
+fppjan22 <- read_excel("fppjan22.xlsx", sheet = "Both")
+```
+
+# Exploratory Data Analysis and Investigation Methodology
