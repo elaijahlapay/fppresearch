@@ -39,7 +39,7 @@ ggplot(fppjan22, aes(x = UserLanguage)) +
    labs(
     x = "Language of Survey",
     y = "Number of Respondents of Survey", 
-    title = "FPP Research January 2022 Survey by Language of Survey",
+    title = "FPP Research January 2022 Survey by Language of Survey"
   )
 ```
 
@@ -55,14 +55,14 @@ ggplot(aes(x = QID1)) +
    labs(
     x = "Satisfaction with Fresh Produce Program",
     y = "Number of Survey Respondents", 
-    title = "Responses to: How satisfied are you with the food you received overall?",
+    title = "Responses to: How satisfied are you with the food you received overall?"
   )
 
-fppjan22_1 <- fppjan22
+fppjan22_2 <- fppjan22
 
-fppjan22_1$QID1 <- recode(fppjan22_1$QID1, "Extremely dissatisfied" = "1", "Somewhat dissatisfied" = "2", "Somewhat satisfied" = "3", "Extremely satisfied" = "4")
+fppjan22_2$QID1 <- recode(fppjan22_2$QID1, "Extremely dissatisfied" = "1", "Somewhat dissatisfied" = "2", "Somewhat satisfied" = "4", "Extremely satisfied" = "4")
 
-fppjan22_1 %>%
+fppjan22_2 %>%
   filter(!is.na(QID1)) %>%
 ggplot(aes(x = QID1)) +
   geom_bar(fill = "#0f7232") +
@@ -73,5 +73,134 @@ ggplot(aes(x = QID1)) +
     y = "Number of Survey Respondents", 
     title = "Responses to: How satisfied are you with the food you received overall?",
     subtitle = "by Language; 1 = Extremely Dissatisfied, 4 = Extremely Satisfied"
+  )
+```
+
+```{r plots-3, message = F, warning = FALSE, echo = FALSE}
+
+fppjan22$Q10 = factor(fppjan22$Q10, levels = c("Strongly disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Strongly agree"), ordered = TRUE)
+
+fppjan22 %>%
+  filter(!is.na(Q10)) %>%
+ggplot(aes(x = Q10)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+   labs(
+    x = "Agreement with Statement: I found the resources helpful.",
+    y = "Number of Survey Respondents", 
+    title = "Responses of Agreement to `I found the resources helpful.`"
+  )
+
+fppjan22_3 <- fppjan22
+
+fppjan22_3$Q10 <- recode(fppjan22_3$Q10, "Strongly disagree" = "1", "Somewhat disagree" = "2", "Neither agree nor disagree" = "3", "Somewhat agree" = "4", "Strongly agree"= "5")
+
+fppjan22_3 %>%
+  filter(!is.na(Q10)) %>%
+ggplot(aes(x = Q10)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+  facet_grid(.~UserLanguage) +
+   labs(
+    x = "Agreement with Statement: I found the resources helpful.",
+    y = "Number of Survey Respondents", 
+    title = "Responses of Agreement to `I found the resources helpful.`",
+    subtitle = "by Language; 1 = Strongly Disagree, 5 = Strongly Agree"
+  )
+```
+
+```{r plots-4, message = F, warning = FALSE, echo = FALSE}
+
+fppjan22$Q24...21 = factor(fppjan22$Q24...21, levels = c("Too much", "Just right", "Too little"), ordered = TRUE)
+
+fppjan22 %>%
+  filter(!is.na(Q24...21)) %>%
+ggplot(aes(x = Q24...21)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Satisfaction of FPP contact frequency")
+
+fppjan22_4 <- fppjan22
+
+fppjan22_4$Q24...21 <- recode(fppjan22_4$Q24...21, "Too Much" = "1", "Just Right" = "2", "Too Little" = "3")
+
+fppjan22_4 %>%
+  filter(!is.na(Q24...21)) %>%
+ggplot(aes(x = Q24...21)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+  facet_grid(.~UserLanguage) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Satisfaction of FPP Contact Frequency",
+    subtitle = "by Language; 1 = Too Much, 2 = Just Right, 3 = Too Little"
+  )
+```
+
+```{r plots-5, message = F, warning = FALSE, echo = FALSE}
+
+fppjan22$Q24...24 = factor(fppjan22$Q24...24, levels = c("Pickup", "Delivery", "Hybrid"), ordered = TRUE)
+
+fppjan22 %>%
+  filter(!is.na(Q24...24)) %>%
+ggplot(aes(x = Q24...24)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Preference of Distribution Modality")
+
+fppjan22_5 <- fppjan22
+
+fppjan22_5$Q24...24 <- recode(fppjan22_5$Q24...24, "Pickup" = "1", "Delivery" = "2", "Hybrid" = "3")
+
+fppjan22_5 %>%
+  filter(!is.na(Q24...24)) %>%
+ggplot(aes(x = Q24...24)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+  facet_grid(.~UserLanguage) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Preference of Distribution Modality",
+    subtitle = "by Language; 1 = Pickup, 2 = Delivery, 3 = Hybrid"
+  )
+```
+
+```{r plots-6, message = F, warning = FALSE, echo = FALSE}
+
+fppjan22$Q28 = factor(fppjan22$Q28, levels = c("None", "A Little", "Some", "Most", "All"), ordered = TRUE)
+
+fppjan22 %>%
+  filter(!is.na(Q28)) %>%
+ggplot(aes(x = Q28)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Amount of Distributed Food Thrown Away")
+
+fppjan22_6 <- fppjan22
+
+fppjan22_6$Q28 <- recode(fppjan22_6$Q28, "None" = "1", "A Little" = "2", "Some" = "3", "Most" = "4", "All" = "5")
+
+fppjan22_6 %>%
+  filter(!is.na(Q28)) %>%
+ggplot(aes(x = Q28)) +
+  geom_bar(fill = "#0f7232") +
+  geom_text(stat='count', aes(label=..count..), vjust=-.3) +
+  facet_grid(.~UserLanguage) +
+   labs(
+    x = "Survey Response",
+    y = "Number of Survey Respondents", 
+    title = "Responses to Amount of Distributed Food Thrown Away",
+    subtitle = "by Language; 1 = None, 2 = A Little, 3 = Some, 4 = Most, 5 = All"
   )
 ```
